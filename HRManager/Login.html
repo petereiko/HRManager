@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h2>HR Manager Login</h2>
+    <div style="margin:50px 100px 50px 100px">
+        <table>
+            <tr>
+                <td>Username:</td>
+                <td>
+                    <input type="text" id="txtUsername" placeholder="Username" />
+                    <br />
+                    <label id="lblUsernameValidator" style="color:red; display:none">Username is required</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td>
+                    <input type="password" id="txtPassword" placeholder="Password" />
+                    <br />
+                    <label id="lblPasswordValidator" style="color:red; display:none">Password is required</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Remember Me:</td>
+                <td>
+                    <input type="checkbox" id="RememberMe" />
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button type="button" style="width:100px; height:20px" id="btnLogin" >Login <span><img id="loader" style="display:none" src="Images/ajax-loader-gif-6.gif" width="10" height="10"/></span> </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script src="Scripts/jquery.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#btnLogin').click(function () {
+                let $username = $('#txtUsername');
+                let $password = $('#txtPassword');
+                if ($username.val() == '') {
+                    $('#lblUsernameValidator').show();
+                    return;
+                }
+                if ($password.val() == '') {
+                    $('#lblPasswordValidator').show();
+                    return;
+                }
+
+                $('#loader').show();
+
+                let loginData = {
+                    username: $username.val(),
+                    password: $password.val(),
+                    rememberMe: $('#RememberMe').prop('checked')
+                };
+
+                let loginDataString = JSON.stringify(loginData);
+
+                //console.log(loginData);
+                //console.log(loginDataString);
+
+                sessionStorage.setItem('loginData', loginDataString);
+
+                location.href = '/home.html';
+                //console.log(loginData);
+
+            });
+        });
+
+        
+
+        
+
+    </script>
+
+</body>
+</html>

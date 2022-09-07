@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div>
+        <table>
+            <tr>
+                <td>Product Name</td>
+                <td>
+                    <input type="text" id="txtProductName" placeholder="Product Name here..." />
+                </td>
+            </tr>
+            <tr>
+                <td>Product Category</td>
+                <td>
+                    <select id="Category"></select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="btnAddProduct">Add Product</button>
+                </td>
+            </tr>
+        </table>
+
+        <br />
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>s/n</th>
+                    <th>Name</th>
+                    <th>Cost</th>
+                    <th>Category</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="list">
+                <tr>
+                    <td colspan="5">No content</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="Scripts/jquery.js"></script>
+    <script>
+        let createdProducts = [];
+        $(function () {
+            let categories = [
+                {
+                    id: 1,
+                    name: 'Electricals',
+                    price: 45000,
+                    isActive: true
+                },
+                {
+                    id: 2,
+                    name: 'Mechanical',
+                    price: 25000,
+                    isActive: true
+                },
+                {
+                    id: 3,
+                    name: 'Civil',
+                    price: 85000,
+                    isActive: true
+                },
+                {
+                    id: 4,
+                    name: 'Computer',
+                    price: 75000,
+                    isActive: true
+                },
+                {
+                    id: 5,
+                    name: 'Furnitures',
+                    price: 125000,
+                    isActive: false
+                }
+            ]
+
+            let content = '<option value="">--Select Category--</option>';
+
+            for (var i = 0; i < categories.length; i++) {
+                var option = '<option value=' + categories[i].id + '>' + categories[i].name + '</option>';
+                content += option;
+            }
+            $('#Category').html(content);
+
+            
+
+
+            $('#btnAddProduct').click(function () {
+                let $productname = $('#txtProductName');
+                let $productCategory = $('#Category option').text();
+                let categoryId = parseInt($('#Category').val());
+                let filteredCategories = categories.filter(x => x.id == categoryId)
+                let categoryName = filteredCategories[0].name;
+                let categoryPrice = filteredCategories[0].price;
+
+                let product = {
+                    name: $productname.val(),
+                    category: categoryName,
+                    price: categoryPrice,
+                }
+
+                createdProducts.push(product);
+
+                console.log(createdProducts);
+                sessionStorage.setItem('products', JSON.stringify(createdProducts));
+
+                $('#list').empty();
+
+                let tableContent = '';
+                for (var i = 0; i < createdProducts.length; i++) {
+                    tableContent += `
+                                      <tr>
+                                        <td>${(i + 1)}</td>
+                                        <td>${createdProducts[i].name}</td>
+                                        <td>${createdProducts[i].price}</td>
+                                        <td>${createdProducts[i].category}</td>
+                                        <td><button onclick="edit(${createdProducts[i].name})">Edit</button>
+                                           <button onclick="deleteProduct(${createdProducts[i].name})">Delete</button>
+                                            </td>
+                                    </tr>
+                                    `;
+                }
+                $('#list').append(tableContent)
+            });
+
+            console.log(createdProducts);
+
+        });
+
+        
+
+        function deleteProduct(name) {
+            debugger;
+            let _products = JSON.parse(sessionStorage.getItem('products'));
+            console.log(_products);
+            _products = _products.filter(x => x.name != name);
+
+            $('#list').empty();
+
+            let tableContent = '';
+            for (var i = 0; i < _products.length; i++) {
+                tableContent += `
+                                      <tr>
+                                        <td>${(i + 1)}</td>
+                                        <td>${createdProducts[i].name}</td>
+                                        <td>${createdProducts[i].price}</td>
+                                        <td>${createdProducts[i].category}</td>
+                                        <td><button onclick="edit(${createdProducts[i].name})">Edit</button>
+                                           <button onclick="deleteProduct(${createdProducts[i].name})">Delete</button>
+                                            </td>
+                                    </tr>
+                                    `;
+            }
+            $('#list').append(tableContent)
+
+            console.log(createdProducts);
+        }
+        
+
+
+
+        
+    </script>
+
+</body>
+</html>

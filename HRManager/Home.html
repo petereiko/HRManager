@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div style="margin:50px 100px 50px 100px">
+        <table>
+            <tr>
+                <td>Username:</td>
+                <td>
+                    <label id="lblUsername"></label>
+                </td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td>
+                    <label id="lblPassword"></label>
+                </td>
+            </tr>
+            <tr>
+                <td>Remember Me:</td>
+                <td>
+                    <input type="checkbox" id="RememberMe" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script src="Scripts/jquery.js"></script>
+   <script>
+       $(function () {
+           let loginDataString = sessionStorage.getItem('loginData');
+           let loginData = JSON.parse(loginDataString);
+
+           let username = loginData.username;
+           let password = loginData.password;
+           let rememberMe = loginData.rememberMe;
+
+
+           $('#lblUsername').text(username);
+           $('#lblPassword').text(password);
+           $('#RememberMe').prop('checked', rememberMe);
+       })
+   </script>
+</body>
+
+</html>
